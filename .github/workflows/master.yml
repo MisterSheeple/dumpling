@@ -9,29 +9,17 @@ on:
 
 jobs:
   build-binary:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: build binary
         run: |
           docker build . -t builder
           docker run --rm -v ${PWD}:/project builder make -j$(nproc)
+      - name: create distribution .zip
+        run: |
+          docker run --rm -v ${PWD}:/project builder make dist
       - uses: actions/upload-artifact@master
         with:
           name: binary
-          path: "*.rpx"
-  deploy-binary:
-    needs: build-binary
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Get environment variables
-        id: get_repository_name
-        run: |
-          echo REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//") >> $GITHUB_ENV
-          echo DATETIME=$(echo $(date '+%Y%m%d-%H%M%S')) >> $GITHUB_ENV
-      - uses: actions/download-artifact@master
-        with:
-          name: binary
-          path: wiiu/apps/dumpling
-      - name: zip artifact
-        run: zip -r ${{ env.REPOSITORY_NAME }}_${{ env.DATETIME }}.zip wiiu
+          path: "./dist/dumpling.zip"
