@@ -1,7 +1,7 @@
 <div style="text-align: center;">
     <img src="assets/dumpling-logo.png" alt="Dumpling Logo" style="width: 80px;" />
     <h3>Dumpling</h3>
-    <p>A simple, all-in-one Wii U file dumper! Developed with the intent of making dumping games and other files (for emulators like Cemu) faster and easier.</p>
+    <p>A simple, all-in-one Wii U file dumper! Developed with the intent of making dumping games and other files (for emulators like Cemu) faster and easier</p>
 </div>
 
 ## How to install
